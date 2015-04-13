@@ -18,14 +18,24 @@ function getSmallestDimension(){
 	return window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth;
 }
 
+function die(){
+	return Math.floor(Math.random() * 6) + 1;
+}
+
+function roll(){
+	return [die(), die()];
+};
+
 var Land = function(type, position, number){
 	this._type = type;
 	this.position = position;
 	this.number = number;
 	this.color = COLORS[type.toUpperCase()];
+	this.nodes = [];
 };
 
 var Board = function(ctx){
+	this.events = {};
 	this.ctx = ctx;
 	this.height = this.ctx.canvas.height;
 	this.width = this.ctx.canvas.width;
@@ -53,6 +63,7 @@ Board.prototype.buildLands = function(){
 
 Board.prototype.drawBackground = function(){
 	var r = this.tileHeight * 2,
+		self = this,
 		x,
 		y;
 	
@@ -96,6 +107,41 @@ Board.prototype.drawBackground = function(){
 
 	this.positions.push({x: this.center, y: this.center});
 	drawHex(this.ctx, this.lands[this.lands.length - 1].color, this.center, this.center, this.tileHeight / 2);
+
+	var img = new Image();
+	img.src = this.ctx.canvas.toDataURL();
+
+	this.ctx.clearRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height);
+	
+	img.onload = function(){
+		self.background = img;
+		self.trigger('ready');
+	};
+};
+
+Board.prototype.render = function(){
+	this.paintBackground();
+};
+
+Board.prototype.paintBackground = function(){
+	this.ctx.drawImage(this.background, 0, 0);
+};
+
+Board.prototype.on = function(event, fn){
+	this.events[event] = this.events[event] || [];
+	this.events[event].push(fn.bind(arguments[2]));
+};
+
+Board.prototype.off = function(event, fn){
+	var index = this.events[event].indexOf(fn);
+
+	this.events[event].splice(index, 1);
+};
+
+Board.prototype.trigger = function(event){
+	this.events[event].forEach(function(fn){
+		fn();
+	});
 };
 
 var Qatan = {
@@ -120,8 +166,15 @@ var Qatan = {
 		this.canvas.setAttribute('style', 'transform: scale(' + factor + ')')
 	},
 	buildBoard: function(){
-		this.board = new Board(this.ctx)
+		this.board = new Board(this.ctx);
+		this.board.on('ready', this.start.bind(this));
 	},
+	start: function(){
+		window.requestAnimationFrame(this.render.bind(this));
+	},
+	render: function(){
+		this.board.render();
+	}
 };
 
 Qatan.init();
