@@ -10,6 +10,8 @@ var Qatan = {
 	layers: [],
 	deck: [],
 	scale: 0.75,
+	playersLoaded: false,
+	boardLoaded: false,
 	init: function(width){
 		this.width = width;
 		this.canvas = document.createElement('canvas');
@@ -33,10 +35,14 @@ var Qatan = {
 		this.board.on('ready', this.start.bind(this));
 	},
 	start: function(){
+		if(!this.playersLoaded || !this.boardLoaded ) return window.setTimeout(this.start.bind(this), 100);
 		window.requestAnimationFrame(this.render.bind(this));
 	},
 	render: function(){
+		var self = this;
+
 		this.board.render();
+		this.players.each(function(p){p.render(self.ctx)});
 	}
 };
 
