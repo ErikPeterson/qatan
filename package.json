@@ -4,7 +4,8 @@
   "description": "Qatan",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js"
   },
   "author": "Erik Sälgström Peterson <eriksalgstrom@gmail.com>",
   "license": "MIT",
