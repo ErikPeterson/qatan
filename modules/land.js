@@ -1,10 +1,10 @@
 var COLORS = {
 	OILFIELD: '#525651',
-	POPPY: '#a84a3b',
-	GROVE: '#c0be88',
+	POPPY: '#E8A5A5',
+	GROVE: '#D0D6B0',
 	OASIS: '#98c0c6',
-	DUNES: '#dfdaa6',
-	CITY: '#b88957'
+	DUNES: '#fff3cf',
+	CITY: '#DEBB97'
 };
 
 var Land = function(type, position, number){

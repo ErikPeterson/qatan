@@ -1,124 +1,7 @@
 var Land  = require('./land');
 var utils = require('./utils');
+var BoardNumber = require('./board-number');
 
-
-var BoardNumber = function(center, number){
-	this.animating = false;
-	this.ticker = 0;
-	this.number =  number;
-	this.x = center.x;
-	this.y = center.y;
-};
-
-BoardNumber.numberFns = {
-	0: function(ctx, x, y){
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.arc(x, y, 4, 0, 2 * utils.pi);
-		ctx.stroke();
-	},
-	1: function(ctx, x, y){
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x - 7, y - 12);
-		ctx.bezierCurveTo(x, y - 12, x , y + 12, x, y + 12);
-		ctx.stroke();
-	},
-	2: function(ctx, x, y){
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x + 10, y - 12);
-		ctx.bezierCurveTo(x + 10, y - 3, x - 7, y - 5, x - 7, y - 11);
-		ctx.bezierCurveTo(x - 4, y - 10, x + 3, y + 10, x, y + 10);
-		ctx.stroke();
-	},
-	3: function(ctx, x, y){
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x + 12, y - 13);
-		ctx.bezierCurveTo(x + 12, y - 5, x + 2, y - 7, x + 2, y - 11);
-		ctx.bezierCurveTo(x + 2, y - 5, x - 10, y - 5, x - 10, y - 13);
-		ctx.bezierCurveTo(x - 10, y - 10, x + 5, y + 10, x , y + 13 );
-		ctx.stroke();
-	},
-	4: function(ctx, x, y){
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x + 5, y - 15);
-		ctx.bezierCurveTo(x - 10, y - 10, x - 10, y, x, y - 2);
-		ctx.bezierCurveTo(x - 12, y + 10, x - 12, y + 17, x + 7, y + 12);
-		ctx.stroke();
-	},
-	5: function(ctx, x, y){
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x + 4, y - 15);
-		ctx.bezierCurveTo(x - 42, y + 20, x + 38, y + 20, x, y - 12);
-		ctx.stroke();
-	},
-	6: function(ctx, x, y){
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x - 10, y - 12);
-		ctx.bezierCurveTo(x - 8, y - 5, x + 10, y - 7, x + 7, y - 12);
-		ctx.bezierCurveTo( x , y , x - 3, y + 10, x, y + 12);
-		ctx.stroke();
-	},
-	8: function(ctx, x, y){
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x - 10, y + 8);
-		ctx.bezierCurveTo(x, y + 8, x, y - 10, x, y - 10);
-		ctx.bezierCurveTo(x, y - 10, x, y + 8, x + 10, y + 8);
-		ctx.stroke();
-	},		
-	9: function(ctx, x, y){
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.arc(x, y - 6, 8, utils.pi * 0.25, utils.pi * 2);
-		ctx.bezierCurveTo(x, y + 15, x, y + 15, x, y + 15);
-		ctx.stroke();
-	},		
-	10: function(ctx, x, y){
-		BoardNumber.numberFns[1](ctx, x - 5, y);
-		BoardNumber.numberFns[0](ctx, x + 5, y);
-	},		
-	11: function(ctx, x, y){
-		BoardNumber.numberFns[1](ctx, x - 3, y);
-		BoardNumber.numberFns[1](ctx, x + 6, y);
-
-	},		
-	12: function(ctx, x, y){
-		BoardNumber.numberFns[1](ctx, x - 6, y);	
-		BoardNumber.numberFns[2](ctx, x + 3, y);
-	}	
-};
-
-BoardNumber.prototype.draw = function(ctx){
-	ctx.beginPath();
-	ctx.arc(this.x, this.y, this.radius(), 0, 2 * utils.pi);
-	ctx.closePath();
-	ctx.fillStyle = '#333333';
-	ctx.fill();
-	this.drawNumber(ctx);
-};
-
-BoardNumber.prototype.radius = function(){
-	return 30;
-};
-
-BoardNumber.prototype.drawNumber = function(ctx){
-	BoardNumber.numberFns[this.number](ctx, this.x, this.y);
-};
 
 var Board = function(ctx){
 	this.numbers = [];
@@ -155,12 +38,13 @@ Board.prototype.buildNumbers = function(){
 
 Board.prototype.buildNumber = function(land){
 	if(land.number === 7) return;
-	this.numbers.push(new BoardNumber(land.center, land.number));
+	this.numbers.push(new BoardNumber(land.center, land.number, this.tileHeight));
 };
 
 Board.prototype.drawBackground = function(){
 	var r = this.tileHeight * 2,
 		self = this,
+		a = this.tileHeight / 2,
 		x,
 		y;
 	
@@ -185,7 +69,7 @@ Board.prototype.drawBackground = function(){
 		y = this.center + r * Math.sin((i + 0.5) * 2 * utils.pi /6);
 		this.positions.push({x: x, y: y});
 		this.lands[i-1].center = {x: x, y: y};
-		drawHex(this.ctx, this.lands[i-1].color, x, y, 100);
+		drawHex(this.ctx, this.lands[i-1].color, x, y, a);
 	}
 	r = Math.cos(utils.pi / 6) * r;
 	for(i = 1; i <= 6; i++) {
@@ -193,21 +77,21 @@ Board.prototype.drawBackground = function(){
 		y = this.center + r * Math.sin((i) * 2 * utils.pi /6);
 		this.positions.push({x: x, y: y});
 		this.lands[i + 5].center = {x: x, y: y};
-		drawHex(this.ctx, this.lands[i + 5].color, x, y, 100);
+		drawHex(this.ctx, this.lands[i + 5].color, x, y, a);
 	}
-	r = 200;
+	r = this.tileHeight;
 	for(i = 1; i <= 6; i++) {
 		x = this.center + r * Math.cos((i + 0.5) * 2 * utils.pi / 6);
 		y = this.center + r * Math.sin((i + 0.5) * 2 * utils.pi /6);
 		this.positions.push({x: x, y: y});
 		this.lands[i + 11].center = {x: x, y: y};
-		drawHex(this.ctx, this.lands[ i + 11].color, x, y, 100);
+		drawHex(this.ctx, this.lands[ i + 11].color, x, y, a);
 		
 	}
 
 	this.positions.push({x: this.center, y: this.center});
 	this.lands[this.lands.length - 1].center = {x: this.center, y: this.center};
-	drawHex(this.ctx, this.lands[this.lands.length - 1].color, this.center, this.center, this.tileHeight / 2);
+	drawHex(this.ctx, this.lands[this.lands.length - 1].color, this.center, this.center, a);
 
 	var img = new Image();
 	img.src = this.ctx.canvas.toDataURL();

@@ -10,9 +10,10 @@ var Qatan = {
 	layers: [],
 	deck: [],
 	scale: 0.75,
-	init: function(){
+	init: function(width){
+		this.width = width;
 		this.canvas = document.createElement('canvas');
-		this.canvas.height = this.canvas.width = 1000;
+		this.canvas.height = this.canvas.width = this.width;
 		this.ctx = this.canvas.getContext('2d');
 		document.body.appendChild(this.canvas);
 
@@ -23,7 +24,7 @@ var Qatan = {
 	},
 	scaleCanvas: function(){
 		var dim = getSmallestDimension();
-		var factor = (dim/1000) * this.scale;
+		var factor = (dim / this.width) * this.scale;
 
 		this.canvas.setAttribute('style', 'transform: scale(' + factor + ')')
 	},
@@ -39,4 +40,4 @@ var Qatan = {
 	}
 };
 
-Qatan.init();
+Qatan.init(2500);
