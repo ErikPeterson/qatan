@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 var watch = require('fs').watch;
-var build = require('./build');
+var buildTools = require('./build-tools');
 
 watch('./modules', function(event, fn){
 	if(!event === 'change') return;
 	console.log( fn + ' changed');
 	
 	try{
-		build.js();
+		buildTools.js();
 	} catch(e){
 		console.error(e);
 	}
@@ -19,7 +19,7 @@ watch('./scss', function(event, fn){
 	console.log( fn + ' changed');
 
 	try{
-		build.css();
+		buildTools.css();
 	} catch(e){
 		console.error(e);
 	}
@@ -30,7 +30,7 @@ watch('./html', function(event, fn){
 	console.log( fn + ' changed');
 
 	try{
-		build.html(fn)
+		buildTools.html(fn)
 	} catch(e){
 		console.error(e);
 	}
