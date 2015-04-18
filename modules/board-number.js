@@ -107,7 +107,7 @@ BoardNumber.prototype.draw = function(ctx){
 	ctx.beginPath();
 	ctx.arc(this.x, this.y, this.radius(), 0, 2 * utils.pi);
 	ctx.closePath();
-	ctx.fillStyle = '#333333';
+	ctx.fillStyle = '#d5cf77';
 	ctx.fill();
 	this.drawNumber(ctx);
 };
