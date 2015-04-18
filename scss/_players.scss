@@ -1,0 +1,88 @@
+.player{
+	box-sizing: border-box;
+	padding: 1em;
+	position: absolute;
+	max-width: 50vw;
+	max-height: 50vw;
+	width: auto;
+	height: auto;
+
+	&.seat-0{
+		top: 0;
+		left: 0;
+
+		> .portrait{
+			float: left;
+		}
+	}
+
+	&.seat-1{
+		top: 0;
+		right: 0;
+
+		> .portrait{
+			float: right;
+		}
+	}
+
+	&.seat-2{
+		bottom: 0;
+		right: 0;
+
+		> .portrait{
+			float: right;
+		}
+	}
+
+	&.seat-3{
+		bottom: 0;
+		left: 0;
+
+		> .portrait{
+			float: left;
+		}
+	}
+
+	> .portrait{
+		width: 35px;
+		height: 35px;
+		border-radius: 50%;
+		display: inline-block;
+	}
+
+	ul {
+		margin: 0 1em;
+		display: inline-block;
+		width: auto;
+		height: auto;
+		list-style: none;
+		> li{
+			display: inline-block;
+		}
+	}
+
+	> .info{
+		display: inline-block;
+	}
+
+	&.red{
+		> .portrait{ 
+			background-color: #cc3333;
+		}
+	}
+	&.green{
+		> .portrait{ 
+			background-color: #339966;
+		}
+	}
+	&.black{
+		> .portrait{ 
+			background-color: #333333;
+		}
+	}
+	&.white{
+		> .portrait{ 
+			background-color: #ffffff;
+		}
+	}
+}
