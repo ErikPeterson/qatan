@@ -108,7 +108,6 @@ Board.prototype.render = function(){
 	var self = this;
 	this.paintBackground();
 	this.numbers.forEach(function(n){n.draw(self.ctx)});
-	window.setTimeout(function(){window.requestAnimationFrame(self.render.bind(self))}, 30);
 };
 
 Board.prototype.paintBackground = function(){
