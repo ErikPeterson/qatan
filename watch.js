@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var watch = require('fs').watch;
 var build = require('./build');
 
