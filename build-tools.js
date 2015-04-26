@@ -1,6 +1,17 @@
 var browserify = require('browserify');
 var sass = require('node-sass');
 var mkdirp = require('mkdirp');
+var exec = require('child_process').exec;
+
+var ai = function(){
+	console.log('Processing AI files');
+	exec('./process_dictionaries.sh', {cwd: __dirname}, function(err, stdout, stderr){
+		if(err) return console.error(err);
+		if(stderr) return console.log(stderr);
+
+		console.log('Done Processing AI files');
+	});
+};
 
 var js = function(){
 	console.log('Compiling JS');
@@ -56,5 +67,6 @@ var html = function(fn){
 module.exports = {
 	js: js,
 	css: css,
-	html: html
+	html: html,
+	ai: ai
 };

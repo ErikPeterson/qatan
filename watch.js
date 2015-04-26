@@ -3,7 +3,7 @@
 var watch = require('fs').watch;
 var buildTools = require('./build-tools');
 
-watch('./modules', function(event, fn){
+watch('./modules/',{recursive: true}, function(event, fn){
 	if(!event === 'change') return;
 	console.log( fn + ' changed');
 	
@@ -14,7 +14,7 @@ watch('./modules', function(event, fn){
 	}
 });
 
-watch('./scss', function(event, fn){
+watch('./scss/',{recursive: true}, function(event, fn){
 	if(!event === 'change') return;
 	console.log( fn + ' changed');
 
@@ -25,12 +25,23 @@ watch('./scss', function(event, fn){
 	}
 });
 
-watch('./html', function(event, fn){
+watch('./html/', function(event, fn){
 	if(!event === 'change') return;
 	console.log( fn + ' changed');
 
 	try{
-		buildTools.html(fn)
+		buildTools.html(fn);
+	} catch(e){
+		console.error(e);
+	}
+});
+
+watch('./assets/numberfiles/', function(event, fn){
+	if(!event === 'change') return;
+	console.log( fn + ' changed');
+
+	try{
+		buildTools.ai(fn);
 	} catch(e){
 		console.error(e);
 	}
