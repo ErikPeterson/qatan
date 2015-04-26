@@ -34,7 +34,7 @@ var Qatan = {
 	buildBoard: function(){
 		var self = this;
 
-		this.board = new Board(this.ctx);
+		this.board = new Board(this.ctx, 'english');
 
 		this.board.on('ready', function(){
 			self.boardLoaded = true;
