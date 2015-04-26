@@ -1,6 +1,7 @@
 var utils = require('./utils');
+var numbers = require('./number-dictionaries/languages');
 
-var BoardNumber = function(center, number, tileHeight){
+var BoardNumber = function(center, number, tileHeight, language){
 	this.tileHeight = tileHeight;
 	this.discWidth = (tileHeight / 7) * 2;
 	this.animating = false;
@@ -8,106 +9,14 @@ var BoardNumber = function(center, number, tileHeight){
 	this.number =  number;
 	this.x = center.x;
 	this.y = center.y;
-};
-
-BoardNumber.numberFns = {
-	0: function(ctx, x, y, dw){
-		ctx.lineWidth = Math.floor(dw / 20);
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.arc(x, y, dw / 10, 0, 2 * utils.pi);
-		ctx.stroke();
-	},
-	1: function(ctx, x, y, dw){
-		ctx.lineWidth = Math.floor(dw / 20);
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x - (dw / 7), y - (dw / 4));
-		ctx.bezierCurveTo(x, y - (dw / 4), x , y + (dw / 4), x, y + (dw / 4));
-		ctx.stroke();
-	},
-	2: function(ctx, x, y, dw){
-		ctx.lineWidth = Math.floor(dw / 20);
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x + (dw / 5), y - (dw / 4.1666666667));
-		ctx.bezierCurveTo(x + (dw / 5), y - (dw / 8.33333), x - (dw / 7.1428571429), y - (dw / 10), x - (dw / 7.1428571429), y - (dw / 4.5454545455));
-		ctx.bezierCurveTo(x - (dw / 7.1428571429), y - (dw / 5), x + (dw / 8.33333), y + (dw / 5), x, y + (dw / 5));
-		ctx.stroke();
-	},
-	3: function(ctx, x, y, dw){
-		ctx.lineWidth = Math.floor(dw / 20);
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x + (dw / 4.1666666667), y - (dw / 3.8461538462));
-		ctx.bezierCurveTo(x + (dw / 4.1666666667), y - (dw / 10), x + (dw / 25), y - (dw / 7.1428571429), x + (dw / 25), y - (dw / 4.5454545455));
-		ctx.bezierCurveTo(x + (dw / 25), y - (dw / 10), x - (dw / 5), y - (dw / 10), x - (dw / 5), y - (dw / 3.8461538462));
-		ctx.bezierCurveTo(x - (dw / 5), y - (dw / 5), x + (dw / 10), y + (dw / 5), x , y + (dw / 3.8461538462) );
-		ctx.stroke();
-	},
-	4: function(ctx, x, y, dw){
-		ctx.lineWidth = Math.floor(dw / 20);
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x + (dw / 10), y - (dw / 3.3333333333));
-		ctx.bezierCurveTo(x - (dw / 5), y - (dw / 5), x - (dw / 5), y, x, y - (dw / 25));
-		ctx.bezierCurveTo(x - (dw / 4.1666666667), y + (dw / 5), x - (dw / 4.1666666667), y + (dw / 2.9411764706), x + (dw / 7.1428571429), y + (dw/ 4.1666666667));
-		ctx.stroke();
-	},
-	5: function(ctx, x, y, dw){
-		ctx.lineWidth = Math.floor(dw / 20);
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x + (dw / 12.5), y - (dw / 3.3333333333));
-		ctx.bezierCurveTo(x - (dw / 1.1904761905), y + (dw / 2.5), x + (dw / 1.3157894737), y + (dw / 2.5), x, y - (dw / 4.1666666667));
-		ctx.stroke();
-	},
-	6: function(ctx, x, y, dw){
-		ctx.lineWidth = Math.floor(dw / 20);
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x - (dw / 12.5), y - (dw / 4.1666666667));
-		ctx.bezierCurveTo(x - (dw / 6.25), y - (dw / 10), x + (dw / 5), y - (dw / 7.1428571429), x + (dw / 7.1428571429), y - (dw / 4.1666666667));
-		ctx.bezierCurveTo( x , y , x - (dw / 16.666666667), y + (dw / 5), x, y + (dw / 4.1666666667));
-		ctx.stroke();
-	},
-	8: function(ctx, x, y, dw){
-		ctx.lineWidth = Math.floor(dw / 20);
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.moveTo(x - (dw / 5), y + (dw / 6.25));
-		ctx.bezierCurveTo(x, y + (dw / 6.25), x, y - (dw / 5), x, y - (dw / 5));
-		ctx.bezierCurveTo(x, y - (dw/ 5), x, y + (dw / 6.25), x + (dw / 5), y + (dw / 6.25));
-		ctx.stroke();
-	},		
-	9: function(ctx, x, y, dw){
-		ctx.lineWidth = Math.floor(dw / 20);
-		ctx.strokeStyle = 'white';
-		ctx.beginPath();
-		ctx.arc(x, y - (dw / 8.3333333333), (dw / 6.25), utils.pi * 0.25, utils.pi * 2);
-		ctx.bezierCurveTo(x, y + (dw / 3.333333), x, y + (dw / 3.333333), x, y + (dw / 3.333333));
-		ctx.stroke();
-	},		
-	10: function(ctx, x, y, dw){
-		BoardNumber.numberFns[1](ctx, x - (dw / 10), y, dw);
-		BoardNumber.numberFns[0](ctx, x + (dw / 10), y, dw);
-	},		
-	11: function(ctx, x, y, dw){
-		BoardNumber.numberFns[1](ctx, x - (dw / 16.666666), y, dw);
-		BoardNumber.numberFns[1](ctx, x + (dw / 8.333333), y, dw);
-
-	},		
-	12: function(ctx, x, y, dw){
-		BoardNumber.numberFns[1](ctx, x - (dw / 8.333333), y, dw);	
-		BoardNumber.numberFns[2](ctx, x + (dw / 16.666666), y, dw);
-	}	
+	this.numberHash = numbers[language][this.number];
 };
 
 BoardNumber.prototype.draw = function(ctx){
 	ctx.beginPath();
 	ctx.arc(this.x, this.y, this.radius(), 0, 2 * utils.pi);
 	ctx.closePath();
-	ctx.fillStyle = '#d5cf77';
+	ctx.fillStyle = '#E6E2AD';
 	ctx.fill();
 	this.drawNumber(ctx);
 };
@@ -117,7 +26,37 @@ BoardNumber.prototype.radius = function(){
 };
 
 BoardNumber.prototype.drawNumber = function(ctx){
-	BoardNumber.numberFns[this.number](ctx, this.x, this.y, this.discWidth);
+	var ratio = this.discWidth / this.numberHash.width;
+	var i = 0,
+		len = this.numberHash.curves.length;
+	ctx.strokeStyle = '#ffffff';
+	ctx.lineWidth = this.discWidth / 25;
+
+	for(i = 0; i < len; i++){
+		this.drawCurve(ctx, this.numberHash.curves[i], ratio);
+	};
+
+};
+
+BoardNumber.prototype.drawCurve = function(ctx, curve, ratio){
+	var self = this;
+	ctx.beginPath();
+	curve.forEach(function(segment){
+		self[segment.method](ctx, segment, ratio);
+	});
+	ctx.stroke();
+};
+
+BoardNumber.prototype.moveTo = function(ctx, segment, ratio){
+	ctx.moveTo(this.x + (ratio * segment.point.x), this.y + (ratio * segment.point.y));
+};
+
+BoardNumber.prototype.bezierCurveTo = function(ctx, segment, ratio){
+	ctx.bezierCurveTo( this.x + (ratio * segment.points[0].x), this.y + (ratio * segment.points[0].y), this.x + (ratio * segment.points[1].x), this.y + (ratio * segment.points[1].y), this.x + (ratio * segment.points[2].x), this.y + (ratio * segment.points[2].y));
+};
+
+BoardNumber.prototype.lineTo = function(ctx, segment, ratio){
+	ctx.lineTo(this.x + (ratio * segment.point.x), this.y + (ratio * segment.point.y));
 };
 
 module.exports = BoardNumber;

@@ -3,7 +3,8 @@ var utils = require('./utils');
 var BoardNumber = require('./board-number');
 
 
-var Board = function(ctx){
+var Board = function(ctx, language){
+	this.language = language;
 	this.numbers = [];
 	this.events = {};
 	this.ctx = ctx;
@@ -38,7 +39,7 @@ Board.prototype.buildNumbers = function(){
 
 Board.prototype.buildNumber = function(land){
 	if(land.number === 7) return;
-	this.numbers.push(new BoardNumber(land.center, land.number, this.tileHeight));
+	this.numbers.push(new BoardNumber(land.center, land.number, this.tileHeight, this.language));
 };
 
 Board.prototype.drawBackground = function(){
