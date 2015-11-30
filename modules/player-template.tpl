@@ -5,7 +5,7 @@
 		<li class="points" data-count="0"><span></span></li>
 		<li class="roads" data-count="0"><span></span></li>
 		<li class="cards" data-count="0"><span></span></li>
-		<li class="cadres" data-count="0"><span></span></li>
+		<li class="sams" data-count="0"><span></span></li>
 	</ul>
 	<ul class="resources">
 		<li class="oil" data-count="0"><span></span></li>

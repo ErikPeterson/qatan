@@ -63,6 +63,22 @@
 
 	> .info{
 		display: inline-block;
+		height: auto;
+		width: auto;
+		padding: 0 1rem;
+	}
+	> .info ul{
+		list-style: none;
+		width: auto;
+		height: auto;
+		display: inline-block;
+		> li {
+			display: inline-block;
+		}
+	}
+
+	ul.public > li {
+		font-size: 1rem;
 	}
 
 	&.red{
